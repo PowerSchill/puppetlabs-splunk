@@ -23,7 +23,10 @@
 # [*splunkd_port*]
 #   The splunkd port. Used as a default for both splunk and splunk::forwarder.
 #
-# [*splunkd_listen*]
+# [*deploymentserver_uri*]
+#   The URI of the Splunk deployment server.
+#
+#  [*splunkd_listen*]
 #   The address on which splunkd should listen. Defaults to localhost only.
 #
 # [*purge_inputs*]
@@ -41,14 +44,15 @@
 # Requires: nothing
 #
 class splunk::forwarder (
-  $server            = 'splunk',
-  $package_source    = $splunk::params::forwarder_pkg_src,
-  $package_name      = $splunk::params::forwarder_pkg_name,
-  $logging_port      = $splunk::params::logging_port,
-  $splunkd_port      = $splunk::params::splunkd_port,
-  $splunkd_listen    = '127.0.0.1',
-  $purge_inputs      = false,
-  $purge_outputs     = false,
+  $server               = 'splunk',
+  $package_source       = $splunk::params::forwarder_pkg_src,
+  $package_name         = $splunk::params::forwarder_pkg_name,
+  $logging_port         = $splunk::params::logging_port,
+  $splunkd_port         = $splunk::params::splunkd_port,
+  $deploymentserver_uri = $splunk::params::deploymentserver_uri,
+  $splunkd_listen       = '127.0.0.1',
+  $purge_inputs         = false,
+  $purge_outputs        = false,
 ) inherits splunk::params {
   include staging
 
@@ -101,6 +105,17 @@ class splunk::forwarder (
     value   => "${splunkd_listen}:${splunkd_port}",
     require => Package[$package_name],
     notify  => Service[$virtual_service],
+  }
+
+  if $deploymentserver_uri {
+    ini_setting { "forwarder_deploymentserver_uri":
+      path    => "${splunk::params::forwarder_confdir}/deploymentclient.conf",
+      section => 'target-broker:deploymentServer',
+      setting => 'targetUri',
+      value   => $deploymentserver_uri}
+      require => Package[$package_name],
+      notify  => Service[$virtual_service],
+    }
   }
 
   # If the purge parameters have been set, remove all unmanaged entries from
