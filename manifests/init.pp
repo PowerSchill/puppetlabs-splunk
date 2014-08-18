@@ -111,7 +111,7 @@ class splunk (
       path    => "${splunk::params::server_confdir}/deploymentclient.conf",
       section => 'target-broker:deploymentServer',
       setting => 'targetUri',
-      value   => $deploymentserver_uri}
+      value   => $deploymentserver_uri,
       require => Package[$package_name],
       notify  => Service[$virtual_service],
     }

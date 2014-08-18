@@ -112,7 +112,7 @@ class splunk::forwarder (
       path    => "${splunk::params::forwarder_confdir}/deploymentclient.conf",
       section => 'target-broker:deploymentServer',
       setting => 'targetUri',
-      value   => $deploymentserver_uri}
+      value   => $deploymentserver_uri,
       require => Package[$package_name],
       notify  => Service[$virtual_service],
     }
