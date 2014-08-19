@@ -53,26 +53,26 @@ class splunk (
   $purge_inputs   = false,
   $purge_outputs  = false,
 ) inherits splunk::params {
-  include staging
+
 
   $virtual_service = $splunk::params::server_service
-  $staged_package  = staging_parse($package_source)
-  $staging_subdir  = $splunk::params::staging_subdir
+  #$staged_package  = staging_parse($package_source)
+  #$staging_subdir  = $splunk::params::staging_subdir
 
   $path_delimiter  = $splunk::params::path_delimiter
-  $pkg_path_parts  = [$staging::path, $staging_subdir, $staged_package]
-  $pkg_source      = join($pkg_path_parts, $path_delimiter)
+  #$pkg_path_parts  = [$staging::path, $staging_subdir, $staged_package]
+  #$pkg_source      = join($pkg_path_parts, $path_delimiter)
 
-  staging::file { $staged_package:
+/*  staging::file { $staged_package:
     source => $package_source,
     subdir => $staging_subdir,
     before => Package[$package_name],
   }
-
+*/
   package { $package_name:
     ensure   => installed,
-    provider => $splunk::params::pkg_provider,
-    source   => $pkg_source,
+  #  provider => $splunk::params::pkg_provider,
+  #  source   => $pkg_source,
     before   => Service[$virtual_service],
     tag      => 'splunk_server',
   }

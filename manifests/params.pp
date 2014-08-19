@@ -67,9 +67,9 @@
 # Requires: nothing
 #
 class splunk::params (
-  $version      = '5.0.5',
-  $build        = '179365',
-  $src_root     = "puppet:///modules/splunk",
+  #$version      = '5.0.5',
+  #$build        = '179365',
+  #$src_root     = "puppet:///modules/splunk",
   $deploymentserver_uri = false,
   $splunkd_port = '8089',
   $logging_port = '9997',
