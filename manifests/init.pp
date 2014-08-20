@@ -113,6 +113,13 @@ class splunk (
       setting => 'targetUri',
       value   => $deploymentserver_uri,
       require => Package[$package_name],
+        }
+    ini_setting { "deploymentserver_uri":
+      path    => "${splunk::params::server_confdir}/deploymentclient.conf",
+      section => 'deployment-client',
+      setting => 'disabled',
+      value   => 'false',
+      require => Package[$package_name],
       notify  => Service[$virtual_service],
     }
   }
