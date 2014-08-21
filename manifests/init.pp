@@ -52,6 +52,7 @@ class splunk (
   $web_port       = '8000',
   $purge_inputs   = false,
   $purge_outputs  = false,
+  $use_https      = false,
 ) inherits splunk::params {
 
 
@@ -102,6 +103,14 @@ class splunk (
     section => 'settings',
     setting => 'httpport',
     value   => $web_port,
+    require => Package[$package_name],
+    notify  => Service[$virtual_service],
+  }
+   ini_setting { "splunk_server_use_https":
+    path    => "${splunk::params::server_confdir}/web.conf",
+    section => 'settings',
+    setting => 'enableSplunkWebSSL',
+    value   => $use_https,
     require => Package[$package_name],
     notify  => Service[$virtual_service],
   }
