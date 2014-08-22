@@ -123,7 +123,7 @@ class splunk (
       value   => $deploymentserver_uri,
       require => Package[$package_name],
         }
-    ini_setting { "deploymentserver_uri":
+    ini_setting { "deploymentserver_disabled":
       path    => "${splunk::params::server_confdir}/deploymentclient.conf",
       section => 'deployment-client',
       setting => 'disabled',

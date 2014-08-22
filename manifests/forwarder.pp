@@ -116,7 +116,7 @@ class splunk::forwarder (
       value   => $deploymentserver_uri,
       require => Package[$package_name],
     }
-    ini_setting { "forwarder_deploymentserver_uri":
+    ini_setting { "forwarder_deploymentserver_disabled":
       path    => "${splunk::params::forwarder_confdir}/deploymentclient.conf",
       section => 'deployment-client',
       setting => 'disabled',
