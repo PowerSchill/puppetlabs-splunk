@@ -31,7 +31,7 @@ class splunk::platform::posix (
   }
   @exec { 'enable_splunkforwarder':
     path    => '/opt/splunkforwarder/bin',
-    command => 'splunk enable boot-start',
+    command => 'splunk enable boot-start -user splunk',
     creates => '/etc/init.d/splunk',
     require => Exec['license_splunkforwarder'],
     tag     => 'splunk_forwarder',
